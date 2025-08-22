@@ -69,44 +69,59 @@ export default function NavbarLayout() {
 
 
       {/* Main Navbar (Desktop) */}
-      <div className="hidden sm:flex justify-between items-center bg-white border-b border-gray-300 px-6 py-3 fixed top-0 left-0 w-full z-40">
-        <h1 className="text-lg font-bold text-black-500">D-Tracker</h1>
+      <div className="hidden sm:flex justify-between items-center bg-white border-b border-black  px-6 py-3 fixed top-0 left-0 w-full z-40">
+        <h1 className="text-lg font-bold text-black">D-Tracker</h1>
         <ul className="flex gap-6 text-gray-600">
-          <Link to="/hero"  className="hover:text-blue-500 cursor-pointer">PostTracking</Link>
+          {/* <Link to="/hero"  className="hover:text-blue-500 cursor-pointer">PostTracking</Link> */}
           <Link to="/about" className="hover:text-blue-500 cursor-pointer">Your-Items</Link>
           <Link to="/Check-Expires" className="hover:text-blue-500 cursor-pointer">Check-Expires</Link>
           <Link to="/ourstore" className="hover:text-blue-500 cursor-pointer">Our-Store</Link>
                                       <Link to="/notifications" className="hover:text-blue-500 cursor-pointer">notifications</Link>
-                   <Link to="/profile" className="hover:text-blue-500 cursor-pointer">{tokenFromLs?"profile":"login"}</Link>
+                   {/* <Link to="/profile" className="hover:text-blue-500 cursor-pointer">{tokenFromLs?"profile":"login"}</Link> */}
                    <Link to="/UdhaarForm">Add Udhaar</Link>
-
+                     <Link to="/bluetoothprinter">PrintSettings</Link>
+                      <Link to="/profile" className="hover:text-blue-500 cursor-pointer">{tokenFromLs?"profile":"login"}</Link>
+                         {/* <Link to="/printerdiscovery">Print Discovery</Link> */}
+ <Link to="/addownstore" className="hover:text-blue-500 cursor-pointer">addStore</Link>
         </ul>
       </div>
 
-     
-      <div className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-300 flex justify-around py-2 sm:hidden z-50">
-        <button onClick={()=>Navigate("/hero")} className="flex flex-col items-center text-blue-500">
-          <FaHome className="text-xl" />
-          <Link to="/hero" className="text-xs">Post-Tracking</Link>
-        </button>
-        <button onClick={()=>Navigate("/about")} className="flex flex-col items-center text-gray-500">
-          <FaListUl className="text-xl" />
-          <Link to="/about" className="text-xs">Your-Items</Link>
-        </button>
-        <button onClick={()=>Navigate("/check-Expires")} className="flex flex-col items-center text-gray-500">
-          <FaHeart className="text-xl" />
-          <Link to="/check-Expires" className="text-xs">Check-Expires</Link>
-        </button>
-        <button onClick={()=>Navigate("/ourstore")} className="flex flex-col items-center text-gray-500">
-          <FaCog className="text-xl" />
-          <Link to="/ourstore" className="text-xs">Our-Store</Link>
-        </button>
-        <button onClick={()=>Navigate("/ourstore")} className="flex flex-col items-center text-gray-500">
-          <TbFileReport className="text-xl" />
-          <Link to="/udhaarform" className="text-xs">udhaarForm</Link>
-        </button>
-      
-      </div>
-    </div>
+     <div className="fixed bottom-0 left-0 w-full bg-white border-t border-black p-4 overflow-x-auto sm:hidden z-50">
+  <div className="flex justify-start space-x-6 px-4 py-1 min-w-max">
+    
+    <button onClick={() => Navigate("/about")} className="flex flex-col items-center text-black">
+      <FaListUl className="text-lg" />
+      <span className="text-xs">Your-Items</span>
+    </button>
+
+    <button onClick={() => Navigate("/check-Expires")} className="flex flex-col items-center text-black">
+      <FaHeart className="text-lg" />
+      <span className="text-xs">Check-Expires</span>
+    </button>
+
+    <button onClick={() => Navigate("/ourstore")} className="flex flex-col items-center text-black">
+      <FaCog className="text-lg" />
+      <span className="text-xs">Our-Store</span>
+    </button>
+
+    <button onClick={() => Navigate("/udhaarform")} className="flex flex-col items-center text-black">
+      <TbFileReport className="text-lg" />
+      <span className="text-xs">UdhaarForm</span>
+    </button>
+
+    <button onClick={() => Navigate("/bluetoothprinter")} className="flex flex-col items-center text-black">
+      <FaCog className="text-lg" />
+
+      <span className="text-xs">PrintItems</span>
+    </button>
+
+    <button onClick={() => Navigate("/addownstore")} className="flex flex-col items-center text-black">
+      <FaHome className="text-lg" />
+      <span className="text-xs">AddStore</span>
+    </button>
+
+  </div>
+</div>
+ </div>
   );
 }

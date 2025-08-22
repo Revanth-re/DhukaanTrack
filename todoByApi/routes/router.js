@@ -2,13 +2,27 @@ const express=require("express")
 const router=express.Router()
 const {getAllProducts,getOne,addProducts,updateTodos,deletetodos,updateDecrease,
     MoreDetails,expiryDateHandler,addKhatas,getKhatas,deleteKhatas,
-    updateKhatas}=require("../controllers/todoControl.js")
+    updateKhatas,postPrints,
+    getPrintDetails,
+    deletebillprint,postStoreData,getYourProducts,
+    printStoreBill,
+    getStoreBill,
+    deletestorebillprint,
+    removeItem,
+    postAdditionalData,
+    updateExpiredItems,
+    deletestorebillItems}=require("../controllers/todoControl.js")
+    
+
+
 const {userModel}=require("../models/TodoModels.js")
 const bcrypt=require("bcryptjs")
 const jwt=require("jsonwebtoken")
 const Razorpay=require("razorpay")
 const dotenv=require("dotenv").config()
 const VerifyToken=require("../Authorization/VerifyToken.js")
+
+
 
 
 
@@ -27,6 +41,24 @@ console.log(pay.orders,"pay");
 
 
 
+router.put("/api/poststorebill",VerifyToken,printStoreBill)
+router.get("/api/getstorebill",VerifyToken,getStoreBill)
+router.delete("/api/removeitemsfromcart",removeItem)
+
+router.post("/api/additionaldata",VerifyToken,postAdditionalData)
+
+router.post("/api/printdetails",VerifyToken,postPrints)
+router.get("/api/getprintdetails",VerifyToken,getPrintDetails)
+router.delete("/api/deletebillprint",VerifyToken,deletebillprint)
+router.delete("/api/deletestorebillprint",VerifyToken,deletestorebillprint)
+router.delete("/api/deletebillitems",VerifyToken,deletestorebillItems)
+
+router.post("/api/poststoredata",VerifyToken,postStoreData)
+
+router.get("/api/getyourproducts",VerifyToken,getYourProducts)
+// ATHL450 USB device connect
+
+// router.post("/api/print",usbConnection)
 router.post("/api/create-order", async (req, res) => {
     try {
         const { amount } = req.body; // Amount in INR
@@ -48,24 +80,8 @@ router.post("/api/create-order", async (req, res) => {
     }
 });
 
-// Create Order API
-// router.post("/api/create-order", async (req, res) => {
-//     try {
-//         const { amount } = req.body; // Amount in INR
 
-//         const options = {
-//             amount: amount * 100, // Amount in paise
-//             currency: "INR",
-//             receipt: `receipt_${Date.now()}`
-//         };
 
-//         const order = await pay.orders.create(options);
-//         res.json(order);
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).send("Error creating order");
-//     }
-// });
 
 
 router.put("/api/updatekhata/:id",updateKhatas)
@@ -102,7 +118,7 @@ const {name,password}=req.body
 try{
 const userData=await userModel.findOne({name:name})
 if (userData) {
-    const compared=await bcrypt.compare(password,userData.password)
+    const compared= bcrypt.compare(password,userData.password)
 
 if (compared===true) {
 
@@ -149,6 +165,8 @@ console.log(error);
 router.get("/api/MoreDetails/:id",getOne)
 
 router.put("/api/expiryItems",expiryDateHandler)
+router.put("/api/updateItems",updateExpiredItems)
+
 
 
 

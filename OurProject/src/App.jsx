@@ -20,6 +20,14 @@ import PaymentComponent from './Pages/PaymentComponent'
 import UdhaarForm from './Pages/UdhaarForm'
 import UdhaarCheckForm from './Pages/UdhaarCheckForm'
 import UdhaarList from './Pages/UdhaarList'
+import BluetoothPrinter from './Pages/BluetoothPrinter'
+import PrinterDiscovery from './Pages/PrinterDiscovery'
+import AddPersnolStore from './Pages/AddPersnolStore'
+import AddOwnStore from './Pages/AddOwnStore'
+import YourPostedProducts from './Pages/YourPostedProducts'
+// import ExpiredProducts from './Components/ExpiredProducts'
+
+// YourPostedProducts
 
 
 
@@ -58,6 +66,12 @@ const App = () => {
 <Route path='/UdhaarForm' element={<UdhaarForm/>}></Route>
 <Route path='/udhaarcheckform' element={<UdhaarCheckForm/>}></Route>
 <Route path='/udhaarlist' element={<UdhaarList/>}></Route>
+<Route path='/bluetoothprinter' element={<BluetoothPrinter/>}></Route>
+<Route path='/printerdiscovery' element={<PrinterDiscovery/>}></Route>
+<Route path='/addstore' element={<AddPersnolStore/>}></Route>
+<Route path='/addownstore' element={<AddOwnStore/>}></Route>
+<Route path='/yourpostedproducts' element={<YourPostedProducts/>}></Route>
+
 
 
 
@@ -70,7 +84,7 @@ const App = () => {
 
       {/* <Hero></Hero> */}
     
-     
+     {/* <ExpiredProducts></ExpiredProducts> */}
     </div>
   )
 }

@@ -13,16 +13,20 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "16": "^0.0.2",
     "axios": "^1.11.0",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
+    "escpos": "^3.0.0-alpha.6",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.16.4",
+    "mongoose": "^8.17.2",
     "nodemon": "^3.1.10",
     "pay": "^0.0.1",
     "razor": "^1.1.1",
-    "razorpay": "^2.9.6"
+    "razorpay": "^2.9.6",
+    "serialport": "^13.0.0",
+    "tslib": "^2.8.1"
   }
 }

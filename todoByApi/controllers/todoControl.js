@@ -1,6 +1,9 @@
 
-const { todosModel,userModel ,kathasModel} = require("../models/TodoModels.js");
+const { todosModel,userModel ,kathasModel, printModel,storeModel, storePrintModel, additionalModel} = require("../models/TodoModels.js");
 const Razorpay=require("razorpay")
+// const escpos = require('escpos');
+
+// const USB = require("escpos-usb");
 
 // Get all todos
 
@@ -85,11 +88,13 @@ catch (error) {
 
 }
 const getAllProducts = async (req, res) => {
+  
+  
  
   
   try {
     const todosData = await todosModel.find({uploadedBy:req.userId});
-    console.log(todosData)
+    // console.log(todosData)
     
     res.status(200).json(todosData);
   } catch (error) {
@@ -406,7 +411,7 @@ const LoginController=async(req,res)=>{
     try{
     const userData=await userModel.findOne({name:name})
     if (userData) {
-        const compared=await bcrypt.compare(password,userData.password)
+        const compared=bcrypt.compare(password,userData.password)
     
     if (compared===true) {
     
@@ -440,13 +445,333 @@ const LoginController=async(req,res)=>{
     
     
 
-  
-  
-  
 
+
+const postPrints = async (req, res) => {
+  try {
+    const userId = req.userId; // assuming middleware sets this
+    const { pName, selling, quantity: quantityFromBody } = req.body;
+
+    // Ensure quantity is a number
+    const quantity = 1;
+
+    // Check if product already exists for this user
+    const existingProduct = await printModel.findOne({
+      productName: pName,
+      actualPrice: selling,
+
+      uploadedBy: userId,
+    });
+
+    if (existingProduct) {
+      // If exists, increment quantity
+      existingProduct.quantity += 1;
+      const updatedProduct = await existingProduct.save();
+      return res.status(200).json(updatedProduct);
+    } else {
+      // If not exists, create new product
+      const newProduct = new printModel({
+        productName: pName,
+        actualPrice: selling,
+        uploadedBy: userId,
+        quantity,
+      });
+      const savedProduct = await newProduct.save();
+      return res.status(200).json(savedProduct);
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Server error", error: err.message });
+  }
+}
+
+
+
+const getPrintDetails=async(req,res)=>{
+try {
+    const Data=await printModel.find({uploadedBy:req.userId})
+  res.json(Data)
+  } 
   
+  catch (error) {
+    res.status(404).json(error)
+  }
+
+}
+
+
+
+const deletebillprint=async(req,res)=>{
+  // const id=req.userId
+  try {
+    const result = await printModel.deleteMany({uploadedBy:req.userId})
+    res.status(200).json({
+      message: `All items deleted successfully`,
+      deletedCount: result.deletedCount,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error deleting items" });
+  }
+  }
+
+  const deletestorebillItems=async(req,res)=>{
+try {
+  const deleted=await printModel.deleteMany({uploadedBy:req.userId})
+  console.log(deleted);
+  res.json(deleted)
+  
+  
+} catch (error) {
+  res.json(error)
+  
+}
+
+
+  }
+
+
+  const postStoreData=async(req,res)=>{
+    console.log(req.body,"bodyyyyyy");
 
     
+
+
+  console.log(req.userId,"userid");
+  
+  
+  const {storeName,storeOwner,products}=req.body
+  console.log(storeName,"name of the storeee");
+  
+  try {
+    // const data=req.body
+    // console.log(data);
+
+    const newProduct = new storeModel({
+      uploadedBy: req.userId,
+     storeName:storeName,
+     OwnerName:storeOwner,
+     Products:products
+      
+       // userId comes from middleware
+    })
+    const user=await newProduct.save()
+    // await newProduct.save();
+console.log(user,"user");
+
+    res.json(user);
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+
+
+  }
+
+  const getYourProducts=async(req,res)=>{
+
+
+try {
+    const Data=await storeModel.find({uploadedBy:req.userId})
+  res.json(Data)
+  } 
+  
+  catch (error) {
+    res.status(404).json(error)
+  }
+
+
+
+
+
+  }
+
+
+// const printStoreBill=async(req,res)=>{
+
+
+
+//   console.log(req.userId,"userid");
+  
+//   const {name,price,quantity}=req.body
+// try {
+
+//   const products=await storePrintModel.findOne({name:name})
+//   console.log(products,"productss");
+
+
+
+  
+//   if (products) {
+
+//     const updateqty=Number(quantity+1)
+//     const updated=await storePrintModel.findOneAndUpdate(name,{
+//       quantity:updateqty
+//     },
+//   {new:true})
+//   res.json(updated)
+// //     const postedproduct=new storePrintModel({
+    
+// //   name:name,
+// //   price:price,
+// //   quantity:quantity+1,
+// //   uploadedBy:req.userId
+
+// // })
+// // const userSaved=await postedproduct.save()
+// // res.json(userSaved)
+
+    
+//   }else{
+// const postedproduct=new storePrintModel({
+
+//   name:name,
+//   price:price,
+//   quantity:quantity,
+//   uploadedBy:req.userId
+
+// })
+// const userSaved=await postedproduct.save()
+// res.json(userSaved)
+
+// console.log("hellobroo");
+//   }
+  
+
+
+// }
+//    catch (error) {
+//     res.json(error)
+  
+// }
+
+
+// }
+
+const printStoreBill = async (req, res) => {
+  const userId = req.userId;
+  const { name, price, quantity } = req.body;
+
+  try {
+    // Find if the product already exists
+    const existingProduct = await storePrintModel.findOne({ name: name });
+
+    if (existingProduct) {
+      // Increment quantity
+      const updatedQty = (existingProduct.quantity || 0) + Number( 1);
+      const updatedProduct = await storePrintModel.findOneAndUpdate(
+        { name: name },
+        { quantity: updatedQty },
+        { new: true }
+      );
+      return res.json(updatedProduct);
+    } else {
+      // Create new product
+      const newProduct = new storePrintModel({
+        name,
+        price,
+        quantity: Number(quantity || 1),
+        uploadedBy: userId
+      });
+      const savedProduct = await newProduct.save();
+      return res.json(savedProduct);
+    }
+  } catch (error) {
+    console.error("Error in printStoreBill:", error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+const getStoreBill=async(req,res)=>{
+try {
+   const Data=await storePrintModel.find({uploadedBy:req.userId})
+  res.json(Data)
+} catch (error) {
+  res.json(error)
+}
+
+}
+
+const removeItem=async(req,res)=>{
+  const {store}=req.body
+  const {name,price}=store
+  console.log(store,"name,price");
+  
+  
+
+  try {
+    const deleted=await storePrintModel.deleteMany({name:name})
+    res.json(deleted)
+    console.log(
+      deleted ,"reulted"
+    );
+    
+    // console.log("resulteddddd");
+    
+    
+  } catch (error) {
+    res.json(error)
+  }
+
+}
+const deletestorebillprint=async(req,res)=>{
+
+  // console.log("odiyamma badava");
+  // const id=req.userId
+  
+  try {
+    const result = await storePrintModel.deleteMany({uploadedBy:req.userId})
+    res.status(200).json({
+      message: `All items deleted successfully`,
+      deletedCount: result.deletedCount,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error deleting items" });
+  }
+  }
+
+const postAdditionalData=async(req,res)=>{
+  const {AllData}=req.body
+  console.log(AllData,"filterrr");
+  
+  console.log(req.userId);
+  
+
+try {
+  const postedData=new additionalModel({
+    productDetails:AllData,
+    uploadedBy:req.userId
+  }
+
+  )
+  console.log(postedData,"posted data");
+  
+  res.json(postedData)
+} catch (error) {
+  res.json(error)
+}
+
+}
+
+const updateExpiredItems=async(req,res)=>{
+
+const expiredProducts=req.body
+// console.log(filteredData,"filterdata");
+
+
+  try {
+    const response=await todosModel.find()
+    response.forEach()
+    
+    
+  } catch (error) {
+    
+  }
+
+
+
+}
 
 module.exports = {
   getAllProducts,
@@ -463,5 +788,18 @@ module.exports = {
   addKhatas,
   getKhatas,
   updateKhatas,
-  deleteKhatas
+  deleteKhatas,
+  postPrints,
+  getPrintDetails,
+  deletebillprint,
+  postStoreData,
+  getYourProducts,
+  printStoreBill,
+  getStoreBill,
+  deletestorebillprint,
+  removeItem,
+  postAdditionalData,
+  updateExpiredItems,
+  deletestorebillItems
+
 };

@@ -6,6 +6,8 @@ const VerifyToken=(req,res,next)=>{
 
     // const token = req.headers.authorization;
     const token = req.headers.authorization.split(" ")[1];
+    console.log(token,"this is token");
+    
     // console.log(token,"helloRebb");
     
 
