@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  css: {
-    minify: 'esbuild' // Use esbuild instead of lightningcss (avoids native binary issues)
+    css: {
+    transformer: 'postcss'  // lightningcss place lo postcss use avuthundi
   }
 });
