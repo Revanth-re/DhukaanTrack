@@ -6,7 +6,7 @@ const Features = () => {
     const navigate=useNavigate()
     const handleItems=()=>{
      
-     axios.get('http://localhost:5000/api/getAll') 
+     axios.get('https://thamalapaku.onrender.com/api/getAll') 
 .then((response) => {
   console.log(response.data);
   

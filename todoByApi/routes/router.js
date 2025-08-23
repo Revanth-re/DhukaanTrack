@@ -93,56 +93,6 @@ router.get("/api/getkhatas",VerifyToken,getKhatas)
 
 router.post("/api/products",VerifyToken, addProducts)
 
-router.post("/api/signup",async(req,res)=>{
-
-    try {
-        const {name,password,number}=req.body
-
-        const HashedPassword=await bcrypt.hash(password,12)
-        const newUser=new userModel({name:name,password:HashedPassword,number:number})
-const user=await newUser.save()
-
-res.status(200).json(user)
-
-    } catch (error) {
-      res.json({message:{error}})  
-    }
-
-
-
-})
-
-router.post("/api/login", async (req, res) => {
-  const { name, password } = req.body;
-
-  try {
-    const userData = await userModel.findOne({ name });
-
-    if (!userData) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    const isPasswordValid = await bcrypt.compare(password, userData.password);
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid password" });
-    }
-
-    const token = jwt.sign(
-      { id: userData._id, name: userData.name },
-      process.env.JWT_SECRET_KEY,
-      { expiresIn: "100d" }
-    );
-
-    res.status(200).json({
-      userDetails: { name: userData.name, mobileNum: userData.number },
-      accessToken: token,
-    });
-  } catch (error) {
-    console.error("Login error:", error);
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
 router.put("/api/update/:id", updateTodos)
 
   

@@ -16,7 +16,7 @@
 // // //     e.preventDefault()
 // // //     try {
         
-// // //         const response=await axios.post("http://localhost:5000/api/login",loginDetails)
+// // //         const response=await axios.post("https://thamalapaku.onrender.com/api/login",loginDetails)
       
 // // //         console.log(response);
         
@@ -73,7 +73,7 @@
 
 // //     try {
 // //       const response = await axios.post(
-// //         "http://localhost:5000/api/login",
+// //         "https://thamalapaku.onrender.com/api/login",
 // //         loginDetails
 // //       );
 
@@ -150,7 +150,7 @@
 //     e.preventDefault();
 //     try {
 //       const response = await axios.post(
-//         "http://localhost:5000/api/login",
+//         "https://thamalapaku.onrender.com/api/login",
 //         loginDetails
 //       );
 
@@ -251,7 +251,7 @@ const Login = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/login",
+        "https://thamalapaku.onrender.com/api/login",
         loginDetails
       );
 

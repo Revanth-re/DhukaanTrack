@@ -14,7 +14,7 @@
 //     const handleSignup=async(e)=>{
 //         e.preventDefault()
 //         try {
-//             const response=await axios.post("http://localhost:5000/api/signup",signupDetails,  { headers: { "Content-Type": "application/json" }})
+//             const response=await axios.post("https://thamalapaku.onrender.com/api/signup",signupDetails,  { headers: { "Content-Type": "application/json" }})
 
 //             console.log("postedddd");
 //             console.log(response);
@@ -59,7 +59,7 @@ const Signup = () => {
     const handleSignup = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:5000/api/signup", signupDetails, {
+            await axios.post("https://thamalapaku.onrender.com/api/signup", signupDetails, {
                 headers: { "Content-Type": "application/json" }
             });
             navigate("/Login");
