@@ -1140,7 +1140,7 @@ await axios.post(
 
   <button
     onClick={(e) => handleDelete(item, e)}
-    className="ml-6 bg-red-500 text-white 
+    className="ml-3 bg-red-500 text-white 
       text-xs sm:text-sm md:text-base 
       px-2 sm:px-3 md:px-4 
       py-1 sm:py-1.5 md:py-2 

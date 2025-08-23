@@ -89,15 +89,15 @@ const ExpiredProducts = () => {
           </p>
         </div>
         <div className="bg-white shadow p-4 rounded-xl text-center">
-          <h2 className="text-lg font-semibold">Total Loss</h2>
+          <h2 className="text-lg font-semibold">Actual-Loss</h2>
           <p className="text-2xl font-bold text-red-600">₹{totalLoss}</p>
         </div>
         <div className="bg-white shadow p-4 rounded-xl text-center">
-          <h2 className="text-lg font-semibold">Selling Loss</h2>
+          <h2 className="text-lg font-semibold">Total-Sales</h2>
           <p className="text-2xl font-bold text-yellow-600">₹{sellingLoss}</p>
         </div>
         <div className="bg-white shadow p-4 rounded-xl text-center">
-          <h2 className="text-lg font-semibold">Actual Loss</h2>
+          <h2 className="text-lg font-semibold">Amount-Spent</h2>
           <p className="text-2xl font-bold text-purple-600">₹{actualLoss}</p>
         </div>
       </div>

@@ -111,46 +111,37 @@ res.status(200).json(user)
 
 
 })
+router.post("/api/login", async (req, res) => {
+  const { name, password } = req.body;
 
-router.post("/api/login",async(req,res)=>{
-const {name,password}=req.body
+  try {
+    const userData = await userModel.findOne({ name });
 
-try{
-const userData=await userModel.findOne({name:name})
-if (userData) {
-    const compared= bcrypt.compare(password,userData.password)
+    if (!userData) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-if (compared===true) {
+    const compared = await bcrypt.compare(password, userData.password);
+    if (!compared) {
+      return res.status(401).json({ message: "Invalid password" });
+    }
 
-const token=jwt.sign(userData.toObject(),process.env.JWT_SECRET_KEY,{expiresIn:"2400h"})
+    const token = jwt.sign(
+      userData.toObject(),
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: "2400h" }
+    );
 
+    res.status(200).json({
+      userDetails: { name: userData.name, mobileNum: userData.number },
+      accessToken: token
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
-console.log(token)
-res.json({userDetails:{name:name,mobileNum:userData.number},accessToken:{token}})
-
-
-
-
-    
-    
-} else {
-   res.json("error occured in validation") 
-}
-}else{
-res.json("no data found")
-}
-}catch(error){
-console.log(error);
-
-}
-
-
-
-
-}
-
-
-)
     router.put("/api/update/:id", updateTodos)
 
   

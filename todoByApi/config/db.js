@@ -1,7 +1,6 @@
 const mongoose=require("mongoose")
-
 const ConnectDB=async()=>{
-    const uri="mongodb://localhost:27017/"
+    const uri="mongodb+srv://revanthrevi131:3LyaM6DeU1TSLtmb@cluster0.vvaicm9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 try {
     await mongoose.connect(uri,{dbName:"TodosConnection"})
 

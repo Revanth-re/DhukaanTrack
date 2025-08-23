@@ -506,7 +506,7 @@ const OurStore = () => {
   ];
 
   return (
-    <div className="p-4 md:p-8">
+    <div className="p-4 md:p-8 mb-18">
       <h1 className="text-2xl font-bold mb-6">📦 Our Store Summary</h1>
 
       {/* Summary Cards */}
