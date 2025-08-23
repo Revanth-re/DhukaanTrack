@@ -76,6 +76,7 @@ const PaymentComponent = () => {
                 order_id: data.id,
                 handler: function (response) {
                     alert(`✅ Payment successful for ${planName}!\nPayment ID: ${response.razorpay_payment_id}`);
+                    localStorage.setItem("paymentDetails",JSON.stringify({paymentId:response.razorpay_payment_id,planName:planName}))
                 },
                 prefill: {
                     name: "John Doe",
@@ -92,6 +93,9 @@ const PaymentComponent = () => {
         }
     };
 
+    const subscribed=JSON.parse(localStorage.getItem("paymentDetails"))
+    console.log(subscribed.paymentId);
+    
     return (
         <div className="bg-gray-50 min-h-screen p-6">
             {/* Header */}
@@ -118,7 +122,8 @@ const PaymentComponent = () => {
             </div>
 
             {/* Subscription Plans */}
-            <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+
+            {!subscribed?<div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
                 {[
                     { name: "Monthly", price: 19 },
                     { name: "3 Months", price: 49 },
@@ -136,7 +141,21 @@ const PaymentComponent = () => {
                         </button>
                     </div>
                 ))}
-            </div>
+            </div>:<div>
+
+                <h1 className="text-center font-bold">
+                    You Took {subscribed.planName}  plan Enjoy Your Services 
+
+
+                </h1>
+
+
+
+
+                
+                
+                </div>}
+            
         </div>
     );
 };
